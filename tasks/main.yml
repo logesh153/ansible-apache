@@ -1,0 +1,26 @@
+---
+- name: Installing "{{package_name}}" Server
+  yum:
+   name: "{{package_name}}"
+   state: present
+
+- name: Create Content File
+  template:
+   src: index.html.j2
+   dest: "{{ content_location }}/index.html"
+
+- name: Copying Static File
+  copy:
+   src: logesh.html
+   dest: "{{ content_location }}/logesh.html"
+  notify: restart my server
+
+- name: Printing the webpage
+  uri:
+   url: "{{myurl}}"
+   return_content: yes
+  register: url
+
+- name: debug_module
+  debug:
+   var: url.content
