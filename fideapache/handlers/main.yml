@@ -1,0 +1,5 @@
+---
+- name: restart my server
+  service:
+   name: "{{ package_name }}"
+   state: restarted
